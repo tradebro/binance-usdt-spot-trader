@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+# RabbitMQ
+export AMQP_CONN_STRING=""
+export AMQP_QUEUE=""
+
+# HTTP Endopint
+export HTTP_ENDPOINT=""
+
+. env/bin/activate
+python app.py
