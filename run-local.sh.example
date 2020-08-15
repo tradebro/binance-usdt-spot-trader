@@ -1,11 +1,16 @@
 #!/usr/bin/env sh
 
+# App
+export APP_HOST="0.0.0.0"
+export APP_PORT=8080
+export APP_DEBUG=0
+
 # RabbitMQ
-export AMQP_CONN_STRING=""
-export AMQP_QUEUE=""
+export BINANCE_API_KEY=""
+export BINANCE_API_SECRET=""
 
 # HTTP Endopint
-export HTTP_ENDPOINT=""
+export CAPITAL_IN_USDT=""
 
 . env/bin/activate
 python app.py
