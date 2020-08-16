@@ -9,6 +9,10 @@ export APP_DEBUG=0
 export BINANCE_API_KEY=""
 export BINANCE_API_SECRET=""
 
+# Trader
+export PAIR_TO_LISTEN=""
+export PAIR_TO_TRADE=""
+
 # HTTP Endopint
 export CAPITAL_IN_USDT=""
 

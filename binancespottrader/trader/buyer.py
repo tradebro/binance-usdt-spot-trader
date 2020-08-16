@@ -6,6 +6,8 @@ from decimal import Decimal
 from typing import Union
 
 CAPITAL_IN_USDT = environ.get('CAPITAL_IN_USDT')
+PAIR_TO_LISTEN = environ.get('PAIR_TO_LISTEN')
+PAIR_TO_TRADE = environ.get('PAIR_TO_TRADE')
 
 
 async def balance_is_enough(client: Client) -> bool:
@@ -28,27 +30,15 @@ async def balance_is_enough(client: Client) -> bool:
     return True
 
 
-def infer_symbol_from_pair(pair: str) -> Union[str, None]:
-    pair_map = {
-        'BTCUSD': 'BTCUSDT',
-    }
-
-    symbol = pair_map.get(pair)
-    if not symbol:
-        logger.debug('Pair is not supported, bailing..')
-        return
-
-    return symbol
-
-
 async def start_buying(message: dict) -> Union[dict, None]:
     client = get_binance_client()
 
     if not await balance_is_enough(client=client):
         return
 
-    symbol = infer_symbol_from_pair(pair=message.get('pair'))
+    symbol = PAIR_TO_TRADE if message.get('PAIR') == PAIR_TO_LISTEN else None
     if not symbol:
+        logger.debug('Pair to listen does not match, bailing..')
         return
 
     logger.debug(f'Symbol to buy is {symbol}')
