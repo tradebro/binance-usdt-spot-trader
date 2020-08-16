@@ -1,5 +1,6 @@
 from binancespottrader.utils import get_binance_client, Client
 from binancespottrader.constants import USDT_SYMBOL
+from binancespottrader.utils import format_number
 from sanic.log import logger
 from os import environ
 from decimal import Decimal
@@ -36,15 +37,24 @@ async def start_buying(message: dict) -> Union[dict, None]:
     if not await balance_is_enough(client=client):
         return
 
-    symbol = PAIR_TO_TRADE if message.get('PAIR') == PAIR_TO_LISTEN else None
+    logger.debug(f'Pair to Listen: {PAIR_TO_LISTEN}')
+    logger.debug(f'Pair to Trade: {PAIR_TO_TRADE}')
+
+    symbol = PAIR_TO_TRADE if message.get('pair') == PAIR_TO_LISTEN else None
     if not symbol:
         logger.debug('Pair to listen does not match, bailing..')
         return
 
     logger.debug(f'Symbol to buy is {symbol}')
 
+    quantity = Decimal(CAPITAL_IN_USDT) / Decimal(message.get('close'))
+    quantity = format_number(number=quantity,
+                             precision=6)
+
     buy_order = client.order_market_buy(symbol=symbol,
-                                        quantity=CAPITAL_IN_USDT)
+                                        quantity=quantity)
     logger.debug(f'Managed to buy {buy_order.get("executedQty")}')
+
+    logger.debug(buy_order)
 
     return buy_order
