@@ -16,3 +16,4 @@ This bot receives a command from an exposed `POST` endpoint and executes buy ord
 | `PAIR_TO_TRADE` | Required string, USDT pair in Binance |
 | `AMQP_CONN_STRING` | Required string |
 | `AMQP_QUEUE` | Required string, also known as routing key |
+| `AMQP_ORDERS_EXCHANGE` | Required string |
